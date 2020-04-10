@@ -3,7 +3,7 @@ const Submissions = require('../models/submission');
 
 exports.getAll = async () => {
   try {
-    const competitions = await Competitions.find();
+    const competitions = await Competitions.find().populate('author');
     return await Promise.all(competitions.map(async competition => {
       competition._doc.submissions = await Submissions.find({ competition: competition.id }).countDocuments();
       return competition;

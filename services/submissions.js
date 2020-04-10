@@ -3,7 +3,7 @@ const SubmissionsLike = require('../models/submissionLike');
 
 exports.getAll = async competition => {
   try {
-    const submissions = await Submissions.find({ competition });
+    const submissions = await Submissions.find({ competition }).populate('author');
     return await Promise.all(submissions.map(async submission => {
       submission._doc.likes = await SubmissionsLike.find({ submissions: submission.id }).countDocuments();
       return submission;
